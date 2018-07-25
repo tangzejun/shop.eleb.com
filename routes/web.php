@@ -14,3 +14,24 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('shop_categories','Shop_categoryController');
+
+Route::resource('shops','ShopController');
+
+Route::resource('shopusers','ShopUsersController');
+Route::get('shopusers_editPassword','ShopUsersController@editPassword')->name('shopusers.editPassword');
+Route::post('shopusers_updatePassword','ShopUsersController@updatePassword')->name('shopusers.updatePassword');
+
+//登录
+Route::get('login','SessionController@login')->name('login');
+//验证
+Route::post('login','SessionController@store')->name('login');
+//注销
+Route::delete('logout','SessionController@logout')->name('logout');
+
+//菜品分类
+Route::resource('menucategories','MenuCategoryController');
+
+//菜品
+Route::resource('menus','MenusController');
