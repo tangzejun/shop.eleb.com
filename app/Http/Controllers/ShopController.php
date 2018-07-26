@@ -90,15 +90,17 @@ class ShopController extends Controller
             $request->zhun =0;
         }
         //处理上传文件
-        $file = $request->shop_img;
-        $fileName = $file->store('public/shop_img');
-        $fileName = url(Storage::url($fileName));
+//        $file = $request->shop_img;
+//        $fileName = $file->store('public/shop_img');
+//        $fileName = url(Storage::url($fileName));
+        $storage = Storage::disk('oss');
+        $fileName = $storage->putFile('shop',$request->shop_img);
         DB::beginTransaction();
         try{
             $shops = Shop::create([
                 'shop_category_id'=>$request->shop_category_id,
                 'shop_name'=>$request->shop_name,
-                'shop_img'=>$fileName,
+                'shop_img'=>$storage->url($fileName),
                 'shop_rating'=>$request->shop_rating,
                 'brand'=>$request->brand,
                 'on_time'=>$request->on_time,

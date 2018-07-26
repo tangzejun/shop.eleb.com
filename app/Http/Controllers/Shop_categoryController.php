@@ -34,9 +34,11 @@ class Shop_categoryController extends Controller
             'captcha.captcha'=>'验证码不正确',
         ]);
         //处理上传文件
-        $file = $request->img;
-        $fileName = $file->store('public/img');
-        $fileName = url(Storage::url($fileName));
+      //  $file = $request->img;
+//        $fileName = $file->store('public/img');
+//        $fileName = url(Storage::url($fileName));
+        $storage = Storage::disk('oss');
+        $fileName = $storage->putFile('shop_category',$request->img);
         //没有勾选显示就默认隐藏
         if (!$request->status){
             $request->status =0;
@@ -44,7 +46,7 @@ class Shop_categoryController extends Controller
         $model = Shop_category::create([
             'name'=>$request->name,
             'status'=>$request->status,
-            'img'=>$fileName
+            'img'=>$storage->url($fileName)
         ]);
         return redirect()->route('shop_categories.index')->with('success','添加成功');
     }
@@ -78,9 +80,11 @@ class Shop_categoryController extends Controller
             'status'=>$request->status,
         ];
         if($file){//有文件上传
-            $fileName = $file->store('public/img');
-            $fileName = url(Storage::url($fileName));
-            $data['img']=$fileName;
+//            $fileName = $file->store('public/img');
+//            $fileName = url(Storage::url($fileName));
+            $storage = Storage::disk('oss');
+            $fileName = $storage->putFile('shop_category',$request->img);
+            $data['img']=$storage->url($fileName);
         }
         $shop_category->update($data);
         //设置提示信息

@@ -35,3 +35,12 @@ Route::resource('menucategories','MenuCategoryController');
 
 //菜品
 Route::resource('menus','MenusController');
+
+//上传图片
+Route::post('upload',function (){
+    $storage = \Illuminate\Support\Facades\Storage::disk('oss');
+    $fileName = $storage->url($storage->putFile('upload',request()->file('file')));
+    return [
+        'fileName'=>$fileName
+    ];
+})->name('upload');

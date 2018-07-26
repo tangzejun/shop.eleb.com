@@ -1,4 +1,13 @@
 @extends('default')
+@section('css_files')
+    <!--引入CSS-->
+    <link rel="stylesheet" type="text/css" href="/webuploader/webuploader.css">
+
+@stop
+@section('js_files')
+    <!--引入JS-->
+    <script type="text/javascript" src="/webuploader/webuploader.js"></script>
+@stop
 @section('contents')
     <h1>添加菜品</h1>
     @include('_error')
@@ -53,8 +62,16 @@
         </div>
         <div class="form-group">
             <label>菜品图片</label>
-            <input type="file" name="goods_img">
-            <img src="{{ $menu->goods_img }}" width="90">
+            <input type="hidden" name="img" id="img_url">
+            <input type="hidden" name="old_img" value="{{ $menu->goods_img }}">
+        {{--<input type="file" name="img">--}}
+        <!--dom结构部分-->
+            <div id="uploader-demo">
+                <!--用来存放item-->
+                <div id="fileList" class="uploader-list"></div>
+                <div id="filePicker">选择图片</div>
+            </div>
+            <img src="{{ $menu->goods_img }}" width="90" id="img">
         </div>
         <div class="checkbox">
             <label>

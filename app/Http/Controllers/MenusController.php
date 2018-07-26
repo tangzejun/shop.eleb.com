@@ -95,9 +95,11 @@ class MenusController extends Controller
             $request->status =0;
         }
         //处理上传文件
-        $file = $request->goods_img;
-        $fileName = $file->store('public/goods_img');
-        $fileName = url(Storage::url($fileName));
+//        $file = $request->goods_img;
+//        $fileName = $file->store('public/goods_img');
+//        $fileName = url(Storage::url($fileName));
+//        $storage = Storage::disk('oss');
+//        $fileName = $storage->putFile('menu',$request->goods_img);
         Menu::create([
             'goods_name'=>$request->goods_name,
             'rating'=>$request->rating,
@@ -110,7 +112,7 @@ class MenusController extends Controller
             'tips'=>$request->tips,
             'satisfy_count'=>$request->satisfy_count,
             'satisfy_rate'=>$request->satisfy_rate,
-            'goods_img'=>$fileName,
+            'goods_img'=>$request->img,
             'status'=>$request->status,
         ]);
         return redirect()->route('menus.index')->with('success','添加成功');
@@ -145,8 +147,12 @@ class MenusController extends Controller
             $request->status =0;
         }
         //处理上传文件
-        $file = $request->goods_img;
-        $data = [
+        if($request->img != null){
+            $fillName = $request->img;
+        }else{
+            $fillName = $request->old_img;
+        }
+        $menu->update([
             'goods_name'=>$request->goods_name,
             'rating'=>$request->rating,
             'shop_id'=>$request->shop_id,
@@ -158,14 +164,9 @@ class MenusController extends Controller
             'tips'=>$request->tips,
             'satisfy_count'=>$request->satisfy_count,
             'satisfy_rate'=>$request->satisfy_rate,
+            'goods_img'=>$fillName,
             'status'=>$request->status,
-        ];
-        if($file){//有文件上传
-            $fileName = $file->store('public/goods_img');
-            $fileName = url(Storage::url($fileName));
-            $data['goods_img']=$fileName;
-        }
-        $menu->update($data);
+        ]);
         //设置提示信息
         return redirect()->route('menus.index')->with('success','更新成功');
     }

@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         \Mews\Captcha\CaptchaServiceProvider::class,
+        \Jacobcyl\AliOSS\AliOssServiceProvider::class,
     ],
 
     /*
