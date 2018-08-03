@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Storage;
 
 class ShopController extends Controller
 {
+    //判断是否登录
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     //列表
     public function index()
     {

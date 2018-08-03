@@ -11,7 +11,13 @@ use Illuminate\Validation\Rule;
 
 class ShopUsersController extends Controller
 {
-    //
+    //判断是否登录
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function editPassword()
     {
         return view('shopuser/password');

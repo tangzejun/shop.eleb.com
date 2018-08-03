@@ -36,6 +36,16 @@ Route::resource('menucategories','MenuCategoryController');
 //菜品
 Route::resource('menus','MenusController');
 
+//订单
+Route::resource('orders','OrderController');
+Route::get('status/{status}','OrderController@status')->name('orders.status');
+Route::get('statistics','OrderController@statistics')->name('statistics');
+Route::get('month','OrderController@month')->name('order.month');
+Route::get('day','OrderController@day')->name('order.day');
+
+Route::get('sales','MenuController@sales')->name('menu.sales');
+
+
 //上传图片
 Route::post('upload',function (){
     $storage = \Illuminate\Support\Facades\Storage::disk('oss');
